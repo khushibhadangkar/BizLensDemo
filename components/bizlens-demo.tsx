@@ -316,9 +316,9 @@ export function BizLensDemo() {
         </motion.div>
       </section>
 
-      <section id="dashboard" className="relative px-4 py-20 md:px-8">
-        <motion.div {...reveal()} className="mx-auto flex max-w-[1540px] flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[#0c0d11]/92 shadow-[0_32px_120px_rgba(0,0,0,0.55)]">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 bg-[#111218]/70 px-6 py-5">
+      <section id="dashboard" className="relative px-12 py-20 md:px-16">
+        <motion.div {...reveal()} className="mx-auto flex h-[680px] max-w-[1200px] flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[#0c0d11]/92 shadow-[0_32px_120px_rgba(0,0,0,0.55)]">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 bg-[#111218]/70 px-5 py-4">
             <div className="flex items-center gap-3">
               <span className="grid size-9 place-items-center rounded-full bg-white text-black"><Database className="size-4" /></span>
               <div>
@@ -334,9 +334,9 @@ export function BizLensDemo() {
             </div>
           </div>
 
-          <div className="relative grid gap-5 p-6 xl:grid-cols-[240px_1fr_310px]">
+          <div className="relative grid gap-4 overflow-y-auto p-5 xl:grid-cols-[220px_1fr_280px]">
             {dashboardDisabled && (
-              <div className="absolute inset-6 z-20 grid place-items-center rounded-[1.5rem] border border-white/10 bg-[#0c0d11]/85 backdrop-blur-md">
+              <div className="absolute inset-5 z-20 grid place-items-center rounded-[1.5rem] border border-white/10 bg-[#0c0d11]/85 backdrop-blur-md">
                 <div className="text-center">
                   {processingState === 'loading' ? <Loader2 className="mx-auto size-8 animate-spin text-blue-300" /> : <Database className="mx-auto size-8 text-zinc-500" />}
                   <p className="mt-4 text-2xl text-white">{processingMessage}</p>
@@ -344,11 +344,11 @@ export function BizLensDemo() {
                 </div>
               </div>
             )}
-            <aside className="rounded-[1.5rem] border border-white/10 bg-[#111218]/60 p-5">
+            <aside className="rounded-[1.5rem] border border-white/10 bg-[#111218]/60 p-4">
               <div className="flex items-center gap-2 text-xs uppercase text-zinc-500">
                 <Filter className="size-4" /> Live filters
               </div>
-              <div className="mt-5 space-y-5">
+              <div className="mt-5 space-y-4">
                 <div>
                   <p className="mb-2 text-xs text-zinc-500">Period</p>
                   <div className="grid grid-cols-2 gap-2">
@@ -373,7 +373,7 @@ export function BizLensDemo() {
                 </div>
               </div>
 
-              <div className="mt-8 border-t border-zinc-800 pt-5">
+              <div className="mt-6 border-t border-zinc-800 pt-4">
                 <p className="text-xs uppercase text-zinc-500">Connected files</p>
                 <div className="mt-3 space-y-2">
                   {novaRetail.sources.map((source) => (
@@ -393,32 +393,32 @@ export function BizLensDemo() {
               </div>
             </aside>
 
-            <main className="grid gap-4">
-              <div className="grid gap-4 md:grid-cols-4">
+            <main className="grid gap-3">
+              <div className="grid gap-3 md:grid-cols-4">
                 {[
                   { key: 'revenue' as const, label: 'Revenue', value: formatCurrency(kpiMetrics.totalRev), meta: `${kpiMetrics.verifiedCount} verified records` },
                   { key: 'margin' as const, label: 'Margin', value: `${kpiMetrics.marginPct}%`, meta: `${formatCurrency(kpiMetrics.netProfit)} net` },
                   { key: 'records' as const, label: 'Accuracy', value: `${kpiMetrics.accuracy}%`, meta: `${filteredLedger.length} rows in view` },
                   { key: 'conflicts' as const, label: 'Conflicts', value: String(kpiMetrics.conflictCount), meta: `${formatCurrency(kpiMetrics.conflictAmount)} at risk` },
                 ].map((metric) => (
-                  <button disabled={dashboardDisabled} key={metric.key} onClick={() => setSelectedMetric(metric.key)} className={`rounded-[1.5rem] border p-5 text-left transition duration-300 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 ${selectedMetric === metric.key ? 'border-white bg-white text-black shadow-[0_18px_50px_rgba(255,255,255,0.08)]' : 'border-white/10 bg-[#111218]/60 text-white hover:border-blue-400/45'}`}>
+                  <button disabled={dashboardDisabled} key={metric.key} onClick={() => setSelectedMetric(metric.key)} className={`rounded-[1.5rem] border p-4 text-left transition duration-300 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 ${selectedMetric === metric.key ? 'border-white bg-white text-black shadow-[0_18px_50px_rgba(255,255,255,0.08)]' : 'border-white/10 bg-[#111218]/60 text-white hover:border-blue-400/45'}`}>
                     <div className="flex items-center justify-between">
                       <p className="text-xs uppercase opacity-60">{metric.label}</p>
                       <Eye className="size-4 opacity-50" />
                     </div>
-                    <p className="mt-4 text-3xl font-normal">{metric.value}</p>
-                    <p className={`mt-2 text-sm ${selectedMetric === metric.key ? 'text-zinc-700' : 'text-zinc-500'}`}>{metric.meta}</p>
+                    <p className="mt-3 text-2xl font-normal">{metric.value}</p>
+                    <p className={`mt-2 text-xs ${selectedMetric === metric.key ? 'text-zinc-700' : 'text-zinc-500'}`}>{metric.meta}</p>
                   </button>
                 ))}
               </div>
 
-              <div className="grid flex-1 gap-5 xl:grid-cols-[1.25fr_.75fr]">
-                <div className="rounded-[1.5rem] border border-white/10 bg-[#111218]/60 p-5">
+              <div className="grid flex-1 gap-4 xl:grid-cols-[1.25fr_.75fr]">
+                <div className="rounded-[1.5rem] border border-white/10 bg-[#111218]/60 p-4">
                   <div className="flex items-center justify-between gap-3">
                     <p className="text-sm text-white">Revenue, expense, and conflict movement</p>
                     <span className="text-xs text-zinc-500">Click a month</span>
                   </div>
-                  <div className="h-[270px] pt-5">
+                  <div className="h-[220px] pt-4">
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart data={trendData} onClick={(state) => {
                         const month = String(state?.activeLabel ?? '').toLowerCase() as TimeFilter
@@ -443,12 +443,12 @@ export function BizLensDemo() {
                   </div>
                 </div>
 
-                <div className="rounded-[1.5rem] border border-white/10 bg-[#111218]/60 p-5">
+                <div className="rounded-[1.5rem] border border-white/10 bg-[#111218]/60 p-4">
                   <div className="flex items-center justify-between gap-3">
                     <p className="text-sm text-white">Department expenses</p>
                     <span className="text-xs text-zinc-500">Click a bar</span>
                   </div>
-                  <div className="h-[270px] pt-5">
+                  <div className="h-[220px] pt-4">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={departmentExpenseData} onClick={(state) => {
                         const department = state?.activeLabel
@@ -471,34 +471,34 @@ export function BizLensDemo() {
               </div>
             </main>
 
-            <aside className="grid gap-5">
-              <button disabled={dashboardDisabled} onClick={() => { runVerification(novaRetail.claims[1]); document.getElementById('verify')?.scrollIntoView({ behavior: 'smooth' }) }} className="rounded-[1.5rem] border border-amber-500/30 bg-amber-500/10 p-5 text-left transition hover:-translate-y-0.5 hover:border-amber-300/70 disabled:cursor-not-allowed disabled:opacity-40">
+            <aside className="grid gap-4">
+              <button disabled={dashboardDisabled} onClick={() => { runVerification(novaRetail.claims[1]); document.getElementById('verify')?.scrollIntoView({ behavior: 'smooth' }) }} className="rounded-[1.5rem] border border-amber-500/30 bg-amber-500/10 p-4 text-left transition hover:-translate-y-0.5 hover:border-amber-300/70 disabled:cursor-not-allowed disabled:opacity-40">
                 <div className="flex items-center gap-2 text-amber-300">
                   <AlertTriangle className="size-4" /> Flagged conflict
                 </div>
-                <p className="mt-4 text-3xl font-normal text-white">{formatCurrency(kpiMetrics.conflictAmount || 184000)}</p>
-                <p className="mt-2 text-sm leading-6 text-amber-100/75">CRM records place the renewal in Q3 while the board report pushes it into Q4.</p>
+                <p className="mt-3 text-2xl font-normal text-white">{formatCurrency(kpiMetrics.conflictAmount || 184000)}</p>
+                <p className="mt-2 text-xs leading-5 text-amber-100/75">CRM records place the renewal in Q3 while the board report pushes it into Q4.</p>
               </button>
 
-              <div className="rounded-[1.5rem] border border-white/10 bg-[#111218]/60 p-5">
+              <div className="rounded-[1.5rem] border border-white/10 bg-[#111218]/60 p-4">
                 <div className="flex items-center gap-2">
                   <Sparkles className="size-4 text-blue-300" />
                   <p className="text-sm text-white">What&apos;s happening?</p>
                 </div>
-                <h3 className="mt-4 text-2xl font-normal leading-tight text-white">{insightCopy.headline}</h3>
-                <div className="mt-4 space-y-3 text-sm leading-6 text-zinc-400">
+                <h3 className="mt-3 text-xl font-normal leading-tight text-white">{insightCopy.headline}</h3>
+                <div className="mt-3 space-y-2 text-xs leading-5 text-zinc-400">
                   <p><span className="text-blue-300">Signal:</span> {insightCopy.trend}</p>
                   <p><span className="text-amber-300">Risk:</span> {insightCopy.risk}</p>
                   <p><span className="text-white">Opportunity:</span> {insightCopy.opportunity}</p>
                 </div>
               </div>
 
-              <div className="rounded-[1.5rem] border border-white/10 bg-[#111218]/60 p-5">
+              <div className="rounded-[1.5rem] border border-white/10 bg-[#111218]/60 p-4">
                 <div className="flex items-center justify-between">
                   <p className="text-sm text-white">Source records</p>
                   <span className="text-xs text-zinc-500">{selectedMetric}</span>
                 </div>
-                <div className="mt-3 max-h-[210px] overflow-auto rounded-2xl border border-white/10">
+                <div className="mt-3 max-h-[180px] overflow-auto rounded-2xl border border-white/10">
                   <table className="w-full text-left text-xs">
                     <tbody className="divide-y divide-zinc-800/80">
                       {drillRows.length ? drillRows.map((row) => (

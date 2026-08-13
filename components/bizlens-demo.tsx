@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import {
@@ -60,6 +60,234 @@ function reveal(delay = 0) {
     viewport: { once: true, margin: '-80px' },
     transition: { duration: 0.75, delay, ease: 'easeOut' },
   } as const
+}
+
+function TechStackFlow() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  const stages = [
+    {
+      title: 'Data Sources',
+      description: 'Ingest CSV, XLSX, PDF, and API data with preserved lineage',
+      techs: ['CSV', 'XLSX', 'PDF', 'JSON', 'APIs'],
+      color: 'from-cyan-500/20 to-blue-500/20',
+      glow: 'shadow-[0_0_40px_rgba(6,182,212,0.15)]',
+    },
+    {
+      title: 'Ingestion',
+      description: 'Parse, validate, and transform raw data at scale',
+      techs: ['Pandas', 'Spark', 'Airflow'],
+      color: 'from-blue-500/20 to-indigo-500/20',
+      glow: 'shadow-[0_0_40px_rgba(59,130,246,0.15)]',
+    },
+    {
+      title: 'RAG & Vector',
+      description: 'Semantic search and context retrieval from documents',
+      techs: ['LlamaIndex', 'ChromaDB', 'FAISS', 'Pinecone'],
+      color: 'from-indigo-500/20 to-purple-500/20',
+      glow: 'shadow-[0_0_40px_rgba(99,102,241,0.15)]',
+    },
+    {
+      title: 'AI & Agents',
+      description: 'Multi-agent reasoning and orchestration for insights',
+      techs: ['Gemini', 'Claude', 'LangGraph', 'LangChain'],
+      color: 'from-purple-500/20 to-pink-500/20',
+      glow: 'shadow-[0_0_40px_rgba(168,85,247,0.15)]',
+    },
+    {
+      title: 'Verification',
+      description: 'ML-powered validation and explainability checks',
+      techs: ['SHAP', 'Scikit-learn', 'TensorFlow'],
+      color: 'from-pink-500/20 to-rose-500/20',
+      glow: 'shadow-[0_0_40px_rgba(236,72,153,0.15)]',
+    },
+    {
+      title: 'Backend',
+      description: 'High-performance APIs and real-time data services',
+      techs: ['FastAPI', 'PostgreSQL', 'Supabase', 'Redis'],
+      color: 'from-rose-500/20 to-orange-500/20',
+      glow: 'shadow-[0_0_40px_rgba(251,113,133,0.15)]',
+    },
+    {
+      title: 'Frontend',
+      description: 'Type-safe UI with responsive design and deployment',
+      techs: ['React', 'TypeScript', 'Tailwind', 'Vercel'],
+      color: 'from-orange-500/20 to-amber-500/20',
+      glow: 'shadow-[0_0_40px_rgba(251,146,60,0.15)]',
+    },
+  ]
+
+  // Cycle active stage for subtle animation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % stages.length)
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [stages.length])
+
+  return (
+    <div className="mt-16 overflow-x-auto pb-8">
+      <div className="min-w-[1100px]">
+        <div className="relative">
+          {/* Connection Lines with Particles */}
+          <svg className="absolute left-0 top-32 h-2 w-full" style={{ zIndex: 0 }}>
+            <defs>
+              <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="rgba(59, 130, 246, 0.4)" />
+                <stop offset="50%" stopColor="rgba(139, 92, 246, 0.4)" />
+                <stop offset="100%" stopColor="rgba(251, 146, 60, 0.4)" />
+              </linearGradient>
+            </defs>
+            <line
+              x1="8%"
+              y1="4"
+              x2="92%"
+              y2="4"
+              stroke="url(#lineGradient)"
+              strokeWidth="2"
+              strokeDasharray="8 4"
+              opacity="0.5"
+            />
+            {/* Animated particles */}
+            {[0, 1, 2].map((i) => (
+              <motion.circle
+                key={i}
+                r="3"
+                fill="rgba(59, 130, 246, 0.8)"
+                initial={{ cx: '8%', cy: 4 }}
+                animate={{ cx: '92%', cy: 4 }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  delay: i * 2.5,
+                  ease: 'linear',
+                }}
+              />
+            ))}
+          </svg>
+
+          {/* Stage Cards */}
+          <div className="relative z-10 flex items-start justify-between gap-4">
+            {stages.map((stage, index) => {
+              const isHovered = hoveredIndex === index
+              const isActive = activeIndex === index
+              const isHighlighted = isHovered || isActive
+
+              return (
+                <motion.div
+                  key={stage.title}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.08 }}
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  className="group relative flex-1"
+                >
+                  {/* Glow effect on hover */}
+                  {isHighlighted && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className={`absolute inset-0 rounded-[2rem] bg-gradient-to-br ${stage.color} blur-2xl`}
+                      style={{ zIndex: -1 }}
+                    />
+                  )}
+
+                  {/* Card */}
+                  <motion.div
+                    animate={{
+                      scale: isHighlighted ? 1.05 : 1,
+                      y: isHighlighted ? -8 : 0,
+                    }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                    className={`glass-panel relative overflow-hidden rounded-[2rem] border p-6 transition-all duration-300 ${
+                      isHighlighted
+                        ? `border-white/30 ${stage.glow}`
+                        : 'border-white/10'
+                    }`}
+                  >
+                    {/* Gradient overlay */}
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-br ${stage.color} opacity-0 transition-opacity duration-500 ${
+                        isHighlighted ? 'opacity-100' : ''
+                      }`}
+                    />
+
+                    {/* Content */}
+                    <div className="relative">
+                      {/* Stage number badge */}
+                      <motion.div
+                        animate={{
+                          scale: isHighlighted ? 1.1 : 1,
+                          boxShadow: isHighlighted
+                            ? '0 0 20px rgba(59, 130, 246, 0.5)'
+                            : '0 0 0px rgba(59, 130, 246, 0)',
+                        }}
+                        className="mb-5 flex size-12 items-center justify-center rounded-full border border-white/20 bg-white/5 backdrop-blur-sm"
+                      >
+                        <span className="text-base font-normal text-white">
+                          {index + 1}
+                        </span>
+                      </motion.div>
+
+                      {/* Title */}
+                      <h3 className="mb-3 text-base font-normal text-white">
+                        {stage.title}
+                      </h3>
+
+                      {/* Description (shown on hover) */}
+                      <motion.p
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{
+                          opacity: isHovered ? 1 : 0,
+                          height: isHovered ? 'auto' : 0,
+                        }}
+                        transition={{ duration: 0.3 }}
+                        className="mb-4 overflow-hidden text-xs leading-5 text-zinc-400"
+                      >
+                        {stage.description}
+                      </motion.p>
+
+                      {/* Technologies */}
+                      <div className="flex flex-wrap gap-2">
+                        {stage.techs.map((tech) => (
+                          <motion.span
+                            key={tech}
+                            whileHover={{ scale: 1.05 }}
+                            className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-normal text-zinc-300 backdrop-blur-sm transition hover:border-white/30 hover:bg-white/10"
+                          >
+                            {tech}
+                          </motion.span>
+                        ))}
+                      </div>
+
+                      {/* Active pulse indicator */}
+                      {isActive && !isHovered && (
+                        <motion.div
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.8, opacity: 0 }}
+                          className="absolute right-4 top-4"
+                        >
+                          <span className="relative flex size-3">
+                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
+                            <span className="relative inline-flex size-3 rounded-full bg-blue-500" />
+                          </span>
+                        </motion.div>
+                      )}
+                    </div>
+                  </motion.div>
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export function BizLensDemo() {
@@ -236,10 +464,10 @@ export function BizLensDemo() {
           </div>
 
           <div className="rounded-[2rem] border border-white/10 bg-[#101116]/70 p-5 shadow-[0_24px_90px_rgba(0,0,0,0.42)]">
-            <div className={`rounded-[1.5rem] border border-dashed p-7 transition ${processingState === 'error' ? 'border-red-400/45 bg-red-500/10' : processingState === 'loading' ? 'border-blue-300/50 bg-blue-500/15' : 'border-blue-400/30 bg-blue-500/10'}`}>
+            <div className={`rounded-[1.5rem] border border-dashed p-7 transition ${processingState === 'error' ? 'border-red-400/45 bg-red-500/10' : processingState === 'loading' ? 'border-zinc-600/50 bg-[#0c0d11]/70' : 'border-zinc-700/30 bg-[#0c0d11]/50'}`}>
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
-                  <span className="grid size-12 place-items-center rounded-full bg-white text-black">
+                  <span className="grid size-12 place-items-center rounded-full border border-white/20 bg-[#111218]/80 text-white">
                     {processingState === 'loading' ? <Loader2 className="size-5 animate-spin" /> : <Upload className="size-5" />}
                   </span>
                   <div>
@@ -248,7 +476,7 @@ export function BizLensDemo() {
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <button disabled={processingState === 'loading'} onClick={loadDataset} className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm text-black transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-60">
+                  <button disabled={processingState === 'loading'} onClick={loadDataset} className="inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-[#111218]/80 px-5 py-2.5 text-sm text-white transition hover:border-zinc-600 hover:bg-[#1a1b22] disabled:cursor-not-allowed disabled:opacity-60">
                     {processingState === 'loading' ? <Loader2 className="size-4 animate-spin" /> : <Play className="size-4 fill-current" />} {processingState === 'loading' ? 'Processing' : 'Load sample'}
                   </button>
                   <label className={`inline-flex items-center gap-2 rounded-full border border-zinc-700 px-5 py-2.5 text-sm text-white transition hover:bg-zinc-900 ${processingState === 'loading' ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}>
@@ -676,6 +904,56 @@ export function BizLensDemo() {
               Upload / Parse / Understand / Analyze / Verify / Ask / Decide
             </div>
           </div>
+        </motion.div>
+      </section>
+
+      <section id="tech-stack" className="relative overflow-hidden border-y border-white/5 bg-[#0a0a0b] px-6 py-24 md:px-12 lg:py-32">
+        {/* Ambient background glow */}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.08),transparent_60%)]" />
+        
+        <motion.div {...reveal()} className="relative mx-auto max-w-7xl">
+          <div className="text-center">
+            <p className="eyebrow">Technology Stack</p>
+            <h2 className="mt-5 text-4xl font-normal leading-[1.05] text-white md:text-6xl">
+              Watch data transform into intelligence.
+            </h2>
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-zinc-400">
+              From raw files to verified insights, every layer works in concert to deliver trustworthy business decisions.
+            </p>
+          </div>
+
+          {/* Interactive Architecture Flow */}
+          <TechStackFlow />
+
+          {/* Key Features */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
+            className="mt-16 grid gap-4 md:grid-cols-3"
+          >
+            {[
+              { title: 'Scalable ingestion', body: 'Multi-format parsing with parallel processing for large datasets.', gradient: 'from-blue-500/10 to-cyan-500/5' },
+              { title: 'AI-powered analysis', body: 'Vector search and LLM agents work together for contextual insights.', gradient: 'from-purple-500/10 to-blue-500/5' },
+              { title: 'Production-ready', body: 'Type-safe frontend, performant APIs, and cloud-native deployment.', gradient: 'from-green-500/10 to-emerald-500/5' },
+            ].map((item, idx) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 + idx * 0.1 }}
+                viewport={{ once: true }}
+                className="group relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0c0d11]/55 p-6 transition hover:border-white/20"
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 transition-opacity duration-500 group-hover:opacity-100`} />
+                <div className="relative">
+                  <p className="text-base font-normal text-white">{item.title}</p>
+                  <p className="mt-2 text-sm leading-6 text-zinc-500 group-hover:text-zinc-400">{item.body}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </motion.div>
       </section>
 

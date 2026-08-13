@@ -23,6 +23,7 @@ export default function Page() {
           <a href="#dashboard" className="transition hover:text-white">Dashboard</a>
           <a href="#verify" className="transition hover:text-white">Verify</a>
           <a href="#architecture" className="transition hover:text-white">Architecture</a>
+          <a href="#tech-stack" className="transition hover:text-white">Tech Stack</a>
           <a href="#decide" className="transition hover:text-white">Decide</a>
         </nav>
         <div className="flex items-center gap-4">
@@ -43,6 +44,7 @@ export default function Page() {
             <a href="#dashboard" onClick={() => setMenuOpen(false)}>Dashboard</a>
             <a href="#verify" onClick={() => setMenuOpen(false)}>Verify</a>
             <a href="#architecture" onClick={() => setMenuOpen(false)}>Architecture</a>
+            <a href="#tech-stack" onClick={() => setMenuOpen(false)}>Tech Stack</a>
             <a href="#decide" onClick={() => setMenuOpen(false)}>Decide</a>
           </nav>
         )}
